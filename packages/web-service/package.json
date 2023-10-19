@@ -1,7 +1,7 @@
 {
   "name": "web-service",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/src/main.js",
   "license": "MIT",
   "private": "true",
   "dependencies": {
