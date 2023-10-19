@@ -7,7 +7,8 @@ export type UserAccessOutput = {
 };
 
 export type FindFisrtUserRepositoryInput = {
-  email: string;
+  id?: string;
+  email?: string;
 };
 
 export type CreatetUserRepositoryInput = {

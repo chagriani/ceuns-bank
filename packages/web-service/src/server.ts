@@ -36,7 +36,25 @@ export const httpExpress = () => {
       const createLogin = new v1Domain.auth.usecases.CreateLogin(hash, userRepositoryPrisma);
 
       //Controllers
-      new controller.v1.auth.RouteController(server, signin, createLogin, { prefix: `/${version}/auth` });
+      new controller.v1.auth.AuthController(server, signin, createLogin, { prefix: `/${version}/auth` });
+    }
+
+    //Account
+    {
+      //Repository
+      const accountRepositoryPrisma = new v1Repository.account.AccountRepositoryPrisma();
+      const accountTypeRepositoryPrisma = new v1Repository.account.AccountTypeRepositoryPrisma();
+      const userRepositoryPrisma = new v1Repository.account.UserRepositoryPrisma();
+
+      //Use cases
+      const open = new v1Domain.account.usecases.Open(
+        userRepositoryPrisma,
+        accountTypeRepositoryPrisma,
+        accountRepositoryPrisma
+      );
+
+      //Controllers
+      new controller.v1.account.AccountController(server, open, { prefix: `/${version}/account` });
     }
   }
 

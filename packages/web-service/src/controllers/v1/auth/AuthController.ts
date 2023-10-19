@@ -17,7 +17,7 @@ type RequestPost = {
   };
 };
 
-export class RouteController {
+export class AuthController {
   constructor(
     private readonly http: IHttp,
     private readonly signin: v1.auth.usecases.Signin,

@@ -2,7 +2,7 @@
   "name": "@ceuns-bank/repository",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "build": "rimraf dist && tsc && cp -r prisma ./dist/"
   },
