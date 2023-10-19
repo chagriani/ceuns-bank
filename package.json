@@ -1,0 +1,14 @@
+{
+  "name": "ceuns-bank",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/chagriani/ceuns-bank.git",
+  "author": "chagriani <diego_bagliani@hotmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
+}

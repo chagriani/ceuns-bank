@@ -1,0 +1,21 @@
+{
+  "name": "@ceuns-bank/repository",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "build": "rimraf dist && tsc && cp -r prisma ./dist/"
+  },
+  "author": "chagriani <diego_bagliani@hotmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.8.6",
+    "prisma": "^5.4.2",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@ceuns-banck/domain": "*",
+    "@prisma/client": "^5.4.2"
+  }
+}

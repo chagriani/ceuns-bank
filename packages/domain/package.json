@@ -1,0 +1,17 @@
+{
+  "name": "@ceuns-banck/domain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "rimraf dist && tsc"
+  },
+  "author": "chagriani <diego_bagliani@hotmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.8.6",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.2.2"
+  }
+}
