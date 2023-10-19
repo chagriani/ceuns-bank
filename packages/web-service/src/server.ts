@@ -52,9 +52,10 @@ export const httpExpress = () => {
         accountTypeRepositoryPrisma,
         accountRepositoryPrisma
       );
+      const deposit = new v1Domain.account.usecases.Transaction(userRepositoryPrisma, accountRepositoryPrisma);
 
       //Controllers
-      new controller.v1.account.AccountController(server, open, { prefix: `/${version}/account` });
+      new controller.v1.account.AccountController(server, open, deposit, { prefix: `/${version}/account` });
     }
   }
 
