@@ -10,5 +10,10 @@
     "packages": [
       "packages/*"
     ]
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "start:web:prod": "cd packages/web-service && npm run start:prod",
+    "start:web:dev": "cd packages/web-service && npm run start:dev"
   }
 }
