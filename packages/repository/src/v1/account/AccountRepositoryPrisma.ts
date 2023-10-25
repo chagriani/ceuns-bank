@@ -6,7 +6,7 @@ export class AccountRepositoryPrisma implements v1.account.repositories.IAccount
     input: v1.account.repositories.FindFisrtAccountRepositoryInput
   ): Promise<v1.account.repositories.AccountRepositoryOutput | undefined> {
     const result = await clientPrisma.account.findFirst({
-      where: { typeId: input.typeId, userId: input.userId },
+      where: { typeId: input.typeId, userId: input.userId, id: input.id },
     });
 
     if (!result) return undefined;
@@ -27,6 +27,15 @@ export class AccountRepositoryPrisma implements v1.account.repositories.IAccount
         userId: input.userId,
         typeId: input.typeId,
       },
+    });
+
+    return Boolean(result);
+  }
+
+  public async update(input: v1.account.repositories.UpdateAccountRepositoryInput): Promise<boolean> {
+    const result = await clientPrisma.account.update({
+      data: { value: input.value },
+      where: { id: input.id },
     });
 
     return Boolean(result);
