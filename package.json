@@ -12,8 +12,9 @@
     ]
   },
   "scripts": {
-    "build": "rimraf dist && tsc",
-    "start:web:prod": "cd packages/web-service && npm run start:prod",
-    "start:web:dev": "cd packages/web-service && npm run start:dev"
+    "build": "cd packages/domain && yarn build && cd ../repository/ && yarn build && cd ../web-service/ && yarn build",
+    "create:db": "cd packages/repository && npx prisma db push",
+    "start:web:prod": "yarn install && yarn build && yarn create:db && cd packages/web-service && yarn start:prod",
+    "start:web:dev": "yarn install && yarn build && yarn create:db && cd packages/web-service && yarn start:dev"
   }
 }
