@@ -102,7 +102,6 @@ model accountTransaction {
   value             BigInt
   date              DateTime                    @default(now()) @updatedAt()
   account           account                     @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  transactionType   accountTransactionType      @relation(fields: [transactionTypeId], references: [id], onDelete: Cascade)
   histories         accountTransactionHistory[]
 }
 
@@ -115,19 +114,16 @@ model accountTransactionHistory {
 }
 
 model accountTransactionType {
-  id                  String                          @id @default(uuid())
-  name                String
-  date                DateTime                        @default(now()) @updatedAt()
-  accountTransactions accountTransaction[]
-  histories           accountTransactionTypeHistory[]
+  id   String   @id @default(uuid())
+  name String
+  date DateTime @default(now()) @updatedAt()
 }
 
 model accountTransactionTypeHistory {
-  id                       String                 @id @default(uuid())
+  id                       String   @id @default(uuid())
   accountTransactionTypeId String
   name                     String
-  date                     DateTime               @default(now()) @updatedAt()
-  accountTransactionType   accountTransactionType @relation(fields: [accountTransactionTypeId], references: [id], onDelete: Cascade)
+  date                     DateTime @default(now()) @updatedAt()
 }
 
 model card {
