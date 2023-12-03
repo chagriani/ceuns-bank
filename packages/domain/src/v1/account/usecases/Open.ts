@@ -4,6 +4,7 @@ type Input = {
   userId: string;
   typeId: string;
   value?: bigint;
+  limit?: bigint;
 };
 
 type Output = {
@@ -40,6 +41,7 @@ export class Open {
       typeId: input.typeId,
       userId: input.userId,
       value: input.value ?? BigInt(0),
+      limit: input.limit ?? BigInt(0),
     });
 
     return { account };

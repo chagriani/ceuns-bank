@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/src/index.js",
   "scripts": {
-    "build": "rimraf dist && tsc && cp -r prisma ./dist/"
+    "build": "npx prisma generate && rimraf dist && tsc && cp -r prisma ./dist/"
   },
   "author": "chagriani <diego_bagliani@hotmail.com>",
   "license": "MIT",

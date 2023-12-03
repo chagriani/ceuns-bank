@@ -37,9 +37,14 @@ export class Transaction {
         message: 'Está conta não existe para o usuário logado!',
       });
 
+    const value = existAccountUser.value + BigInt(input.value);
+
+    if (existAccountUser.limit > value)
+      v1.service.error.Erro.execute({ statusCode: 'Bad Request', message: `Saldo insuficiente.` });
+
     const result = await this.accountRepository.update({
       id: existAccountUser.id,
-      value: existAccountUser.value + BigInt(input.value),
+      value,
     });
 
     if (!result)

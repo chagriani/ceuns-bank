@@ -11,35 +11,28 @@ datasource db {
 }
 
 model user {
-  id               String           @id @default(uuid())
-  fisrtName        String
-  surname          String
-  email            String
-  password         String
-  updateAt         DateTime         @default(now()) @updatedAt()
-  histories        userHistory[]
-  accounts         account[]
-  accountHistories accountHistory[]
-  cards            card[]
-  cardHistories    cardHistory[]
-  devices          device[]
-  deviceHistories  deviceHistory[]
+  id        String        @id @default(uuid())
+  fisrtName String
+  surname   String
+  email     String
+  password  String
+  updateAt  DateTime      @default(now()) @updatedAt()
+  histories userHistory[]
+  accounts  account[]
+  cards     card[]
+  devices   device[]
 }
 
 model userHistory {
-  id               String           @id @default(uuid())
-  userId           String
-  fisrtName        String
-  surname          String
-  email            String
-  password         String
-  createAt         DateTime         @default(now())
-  updateAt         DateTime         @updatedAt()
-  user             user             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accounts         account[]
-  cards            card[]
-  accountHistories accountHistory[]
-  cardHistories    cardHistory[]
+  id        String   @id @default(uuid())
+  userId    String
+  fisrtName String
+  surname   String
+  email     String
+  password  String
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt()
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model device {
@@ -56,43 +49,34 @@ model device {
 model deviceHistory {
   id        String   @id @default(uuid())
   deviceId  String
-  userId    String
   identity  String
   name      String?
   isDisable Boolean  @default(false)
   updateAt  DateTime @default(now()) @updatedAt()
-  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
   device    device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
 }
 
 model account {
-  id                   String                      @id @default(uuid())
-  userId               String
-  typeId               String
-  userHistoryId        String?
-  typeHistoryId        String?
-  value                BigInt
-  date                 DateTime                    @default(now()) @updatedAt()
-  user                 user                        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type                 accountType                 @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  userHistory          userHistory?                @relation(fields: [userHistoryId], references: [id], onDelete: Cascade)
-  typeHistory          accountTypeHistory?         @relation(fields: [typeHistoryId], references: [id], onDelete: Cascade)
-  histories            accountHistory[]
-  transactions         accountTransaction[]
-  transactionHistories accountTransactionHistory[]
+  id           String               @id @default(uuid())
+  userId       String
+  typeId       String
+  value        BigInt
+  limit        BigInt               @default(0)
+  date         DateTime             @default(now()) @updatedAt()
+  user         user                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type         accountType          @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  histories    accountHistory[]
+  transactions accountTransaction[]
 }
 
 model accountHistory {
-  id            String       @id @default(uuid())
-  accountId     String
-  userId        String
-  typeId        String
-  userHistoryId String?
-  value         BigInt
-  date          DateTime     @default(now()) @updatedAt()
-  account       account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  user          user         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userHistory   userHistory? @relation(fields: [userHistoryId], references: [id], onDelete: Cascade)
+  id        String   @id @default(uuid())
+  accountId String
+  typeId    String
+  value     BigInt
+  limit     BigInt   @default(0)
+  date      DateTime @default(now()) @updatedAt()
+  account   account  @relation(fields: [accountId], references: [id])
 }
 
 model accountType {
@@ -104,110 +88,85 @@ model accountType {
 }
 
 model accountTypeHistory {
-  id       String      @id @default(uuid())
-  typeId   String
-  name     String
-  date     DateTime    @default(now()) @updatedAt()
-  type     accountType @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  accounts account[]
+  id     String      @id @default(uuid())
+  typeId String
+  name   String
+  date   DateTime    @default(now()) @updatedAt()
+  type   accountType @relation(fields: [typeId], references: [id], onDelete: Cascade)
 }
 
 model accountTransaction {
-  id                       String                         @id @default(uuid())
-  accountId                String
-  transactionTypeId        String
-  transactionTypeHistoryId String?
-  date                     DateTime                       @default(now()) @updatedAt()
-  account                  account                        @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  transactionType          accountTransactionType         @relation(fields: [transactionTypeId], references: [id], onDelete: Cascade)
-  transactionTypeHistory   accountTransactionTypeHistory? @relation(fields: [transactionTypeHistoryId], references: [id], onDelete: Cascade)
-  histories                accountTransactionHistory[]
+  id                String                      @id @default(uuid())
+  accountId         String
+  transactionTypeId String
+  value             BigInt
+  date              DateTime                    @default(now()) @updatedAt()
+  account           account                     @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  transactionType   accountTransactionType      @relation(fields: [transactionTypeId], references: [id], onDelete: Cascade)
+  histories         accountTransactionHistory[]
 }
 
 model accountTransactionHistory {
-  id                       String                         @id @default(uuid())
-  transactionTypeHistoryId String?
-  transactionId            String
-  accountId                String
-  transactionTypeId        String
-  date                     DateTime                       @default(now()) @updatedAt()
-  account                  account                        @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  transactionType          accountTransactionType         @relation(fields: [transactionTypeId], references: [id], onDelete: Cascade)
-  transaction              accountTransaction             @relation(fields: [transactionId], references: [id], onDelete: Cascade)
-  transactionTypeHistory   accountTransactionTypeHistory? @relation(fields: [transactionTypeHistoryId], references: [id], onDelete: Cascade)
+  id            String             @id @default(uuid())
+  transactionId String
+  value         BigInt
+  date          DateTime           @default(now()) @updatedAt()
+  transaction   accountTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
 }
 
 model accountTransactionType {
-  id                          String                          @id @default(uuid())
-  name                        String
-  date                        DateTime                        @default(now()) @updatedAt()
-  accountTransactions         accountTransaction[]
-  accountTransactionHistories accountTransactionHistory[]
-  histories                   accountTransactionTypeHistory[]
+  id                  String                          @id @default(uuid())
+  name                String
+  date                DateTime                        @default(now()) @updatedAt()
+  accountTransactions accountTransaction[]
+  histories           accountTransactionTypeHistory[]
 }
 
 model accountTransactionTypeHistory {
-  id                          String                      @id @default(uuid())
-  accountTransactionTypeId    String
-  name                        String
-  date                        DateTime                    @default(now()) @updatedAt()
-  accountTransactionType      accountTransactionType      @relation(fields: [accountTransactionTypeId], references: [id], onDelete: Cascade)
-  accountTransactions         accountTransaction[]
-  accountTransactionHistories accountTransactionHistory[]
+  id                       String                 @id @default(uuid())
+  accountTransactionTypeId String
+  name                     String
+  date                     DateTime               @default(now()) @updatedAt()
+  accountTransactionType   accountTransactionType @relation(fields: [accountTransactionTypeId], references: [id], onDelete: Cascade)
 }
 
 model card {
-  id            String           @id @default(uuid())
-  userId        String
-  userHistoryId String?
-  typeId        String
-  typeHistoryId String?
-  isVirtual     Boolean
-  isCredit      Boolean
-  isDebit       Boolean
-  limit         BigInt
-  date          DateTime         @default(now()) @updatedAt()
-  user          user             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type          cardType         @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  userHistory   userHistory?     @relation(fields: [userHistoryId], references: [id], onDelete: Cascade)
-  typeHistory   cardTypeHistory? @relation(fields: [typeHistoryId], references: [id], onDelete: Cascade)
-  histories     cardHistory[]
+  id        String        @id @default(uuid())
+  userId    String
+  typeId    String
+  isVirtual Boolean
+  isCredit  Boolean
+  isDebit   Boolean
+  limit     BigInt
+  date      DateTime      @default(now()) @updatedAt()
+  user      user          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      cardType      @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  histories cardHistory[]
 }
 
 model cardHistory {
-  id            String           @id @default(uuid())
-  cardId        String
-  userId        String
-  userHistoryId String?
-  typeId        String
-  typeHistoryId String?
-  isVirtual     Boolean
-  isCredit      Boolean
-  isDebit       Boolean
-  limit         BigInt
-  date          DateTime         @default(now()) @updatedAt()
-  user          user             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type          cardType         @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  userHistory   userHistory?     @relation(fields: [userHistoryId], references: [id], onDelete: Cascade)
-  card          card             @relation(fields: [cardId], references: [id], onDelete: Cascade)
-  typeHistory   cardTypeHistory? @relation(fields: [typeHistoryId], references: [id], onDelete: Cascade)
+  id        String   @id @default(uuid())
+  cardId    String
+  isVirtual Boolean
+  isCredit  Boolean
+  isDebit   Boolean
+  limit     BigInt
+  date      DateTime @default(now()) @updatedAt()
+  card      card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
 }
 
 model cardType {
-  id            String            @id @default(uuid())
-  name          String
-  date          DateTime          @default(now()) @updatedAt()
-  cards         card[]
-  cardHistories cardHistory[]
-  histories     cardTypeHistory[]
+  id        String            @id @default(uuid())
+  name      String
+  date      DateTime          @default(now()) @updatedAt()
+  cards     card[]
+  histories cardTypeHistory[]
 }
 
 model cardTypeHistory {
-  id            String        @id @default(uuid())
-  typeId        String
-  name          String
-  date          DateTime      @default(now()) @updatedAt()
-  type          cardType      @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  cards         card[]
-  cardHistories cardHistory[]
+  id     String   @id @default(uuid())
+  typeId String
+  name   String
+  date   DateTime @default(now()) @updatedAt()
+  type   cardType @relation(fields: [typeId], references: [id], onDelete: Cascade)
 }

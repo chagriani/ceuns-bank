@@ -26,15 +26,10 @@ export class AuthController {
   ) {
     const prefix = this.config?.prefix ? this.config.prefix : '';
 
-    this.http.on(
-      'post',
-      `${prefix}/signin`,
-      async ({ body: { email, password } }: RequestSignin, res: any) => {
-        const result = await this.signin.execute({ email, password });
-        return result;
-      },
-      { auth: ['Basic'] }
-    );
+    this.http.on('post', `${prefix}/signin`, async ({ body: { email, password } }: RequestSignin, res: any) => {
+      const result = await this.signin.execute({ email, password });
+      return result;
+    });
 
     this.http.on(
       'post',
@@ -47,8 +42,7 @@ export class AuthController {
           surname,
         });
         return result;
-      },
-      { auth: ['Basic'] }
+      }
     );
   }
 }

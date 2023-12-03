@@ -22,6 +22,7 @@ export const httpExpress = () => {
   const findGeoLib = new find.findGeoLib();
   const hashCrypto = new converter.hashCrypto(); */
   let version = '';
+
   //v1
   {
     version = 'v1';
@@ -53,9 +54,30 @@ export const httpExpress = () => {
         accountRepositoryPrisma
       );
       const deposit = new v1Domain.account.usecases.Transaction(userRepositoryPrisma, accountRepositoryPrisma);
+      const Find = new v1Domain.account.usecases.Find(userRepositoryPrisma, accountRepositoryPrisma);
 
       //Controllers
-      new controller.v1.account.AccountController(server, open, deposit, { prefix: `/${version}/account` });
+      new controller.v1.account.AccountController(server, open, deposit, Find, { prefix: `/${version}/account` });
+    }
+
+    //Account History
+    {
+      //Repository
+      const accountRepositoryPrisma = new v1Repository.accountHistory.AccountRepositoryPrisma();
+      const accountHistoryRepositoryPrisma = new v1Repository.accountHistory.AccountHistoryRepositoryPrisma();
+      const userRepositoryPrisma = new v1Repository.accountHistory.UserRepositoryPrisma();
+
+      //Use cases
+      const find = new v1Domain.accountHistory.usecases.Find(
+        userRepositoryPrisma,
+        accountHistoryRepositoryPrisma,
+        accountRepositoryPrisma
+      );
+
+      //Controllers
+      new controller.v1.accountHistory.AccountHistoryController(server, find, {
+        prefix: `/${version}/account-history`,
+      });
     }
   }
 

@@ -2,11 +2,18 @@ import type { v1 } from '@ceuns-banck/domain';
 import { clientPrisma } from '../../database/clientPrisma';
 
 export class AccountRepositoryPrisma implements v1.account.repositories.IAccountRepository {
+  public async findMany(
+    input: v1.account.repositories.FindManyAccountRepositoryInput
+  ): Promise<v1.account.repositories.AccountRepositoryOutput[]> {
+    return await clientPrisma.account.findMany({ where: { userId: input.userId }, include: { type: true } });
+  }
+
   public async findFirst(
     input: v1.account.repositories.FindFisrtAccountRepositoryInput
   ): Promise<v1.account.repositories.AccountRepositoryOutput | undefined> {
     const result = await clientPrisma.account.findFirst({
       where: { typeId: input.typeId, userId: input.userId, id: input.id },
+      include: { type: true },
     });
 
     if (!result) return undefined;
@@ -17,6 +24,8 @@ export class AccountRepositoryPrisma implements v1.account.repositories.IAccount
       typeId: result.typeId,
       value: result.value,
       userId: result.userId,
+      type: result.type,
+      limit: result.limit,
     };
   }
 
@@ -26,6 +35,7 @@ export class AccountRepositoryPrisma implements v1.account.repositories.IAccount
         value: input.value,
         userId: input.userId,
         typeId: input.typeId,
+        limit: input.limit,
       },
     });
 
