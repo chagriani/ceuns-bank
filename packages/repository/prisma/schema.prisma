@@ -61,6 +61,7 @@ model account {
   userId       String
   typeId       String
   value        BigInt
+  limit        BigInt               @default(0)
   date         DateTime             @default(now()) @updatedAt()
   user         user                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   type         accountType          @relation(fields: [typeId], references: [id], onDelete: Cascade)
@@ -73,6 +74,7 @@ model accountHistory {
   accountId String
   typeId    String
   value     BigInt
+  limit     BigInt   @default(0)
   date      DateTime @default(now()) @updatedAt()
   account   account  @relation(fields: [accountId], references: [id])
 }
@@ -97,6 +99,7 @@ model accountTransaction {
   id                String                      @id @default(uuid())
   accountId         String
   transactionTypeId String
+  value             BigInt
   date              DateTime                    @default(now()) @updatedAt()
   account           account                     @relation(fields: [accountId], references: [id], onDelete: Cascade)
   transactionType   accountTransactionType      @relation(fields: [transactionTypeId], references: [id], onDelete: Cascade)
@@ -106,6 +109,7 @@ model accountTransaction {
 model accountTransactionHistory {
   id            String             @id @default(uuid())
   transactionId String
+  value         BigInt
   date          DateTime           @default(now()) @updatedAt()
   transaction   accountTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
 }
