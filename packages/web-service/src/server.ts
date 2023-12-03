@@ -88,14 +88,14 @@ export const httpExpress = () => {
       const userRepositoryPrisma = new v1Repository.accountTransaction.UserRepositoryPrisma();
 
       //Use cases
-      const find = new v1Domain.accountHistory.usecases.Find(
+      const find = new v1Domain.accountTransaction.usecases.Find(
         userRepositoryPrisma,
         accountTransatcionRepositoryPrisma,
         accountRepositoryPrisma
       );
 
       //Controllers
-      new controller.v1.accountHistory.AccountHistoryController(server, find, {
+      new controller.v1.accountTransaction.AccountTransactionController(server, find, {
         prefix: `/${version}/account-transaction`,
       });
     }    
