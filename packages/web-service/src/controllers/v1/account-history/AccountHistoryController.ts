@@ -16,7 +16,7 @@ export class AccountHistoryController {
   ) {
     const prefix = this.config?.prefix ? this.config.prefix : '';
 
-    this.http.on('get', `${prefix}/`, async ({ query: { accountId, id } }: RequestGet, res: any) => {
+    this.http.on('get', `${prefix}/user`, async ({ query: { accountId, id } }: RequestGet, res: any) => {
       const result = await this.find.execute({ accountId, userId: id });
       return result;
     });

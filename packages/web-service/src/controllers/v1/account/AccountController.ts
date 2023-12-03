@@ -10,6 +10,15 @@ type RequestPost = {
 };
 
 type RequestPostDeposit = {
+  body: {
+    accountId: string;
+    userId: string;
+    value: bigint;
+    id: string;
+  };
+};
+
+type RequestGetUser = {
   query: { id: string };
 };
 
@@ -37,7 +46,7 @@ export class AccountController {
       }
     );
 
-    this.http.on('get', `${prefix}/user`, async ({ query: { id } }: RequestPostDeposit, res: any) => {
+    this.http.on('get', `${prefix}/user`, async ({ query: { id } }: RequestGetUser, res: any) => {
       const result = await this.find.execute({ userId: id });
       return result;
     });
