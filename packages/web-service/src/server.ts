@@ -79,6 +79,26 @@ export const httpExpress = () => {
         prefix: `/${version}/account-history`,
       });
     }
+
+    //Account Transac
+    {
+      //Repository
+      const accountRepositoryPrisma = new v1Repository.accountTransaction.AccountRepositoryPrisma();
+      const accountTransatcionRepositoryPrisma = new v1Repository.accountTransaction.AccountTransatcionRepositoryPrisma();
+      const userRepositoryPrisma = new v1Repository.accountTransaction.UserRepositoryPrisma();
+
+      //Use cases
+      const find = new v1Domain.accountHistory.usecases.Find(
+        userRepositoryPrisma,
+        accountTransatcionRepositoryPrisma,
+        accountRepositoryPrisma
+      );
+
+      //Controllers
+      new controller.v1.accountHistory.AccountHistoryController(server, find, {
+        prefix: `/${version}/account-transaction`,
+      });
+    }    
   }
 
   server.onPublic();

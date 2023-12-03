@@ -15,11 +15,13 @@ export const clientPrisma = new PrismaClient().$extends({
               limit: exist.limit,
             },
           });
+          console.log(Number(data?.args?.data?.value?.toString()));
           await clientPrisma.accountTransaction.create({
             data: {
               accountId: exist.id,
-              value: Number(exist.value) - (Number(data?.args?.data?.value) && 0),
-              transactionTypeId: 'a',
+              value: BigInt(exist.value) - BigInt(data?.args?.data?.value?.toString() || 0),
+              transactionTypeId:
+                BigInt(exist.value) - BigInt(data?.args?.data?.value?.toString() || 0) < 0 ? 'SAQUE' : 'DEPÓSITO',
             },
           });
         }
